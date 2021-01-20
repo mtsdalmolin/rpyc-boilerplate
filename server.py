@@ -1,6 +1,6 @@
 import rpyc
+import time
 from rpyc.utils.server import ThreadedServer
-
 
 class TFService(rpyc.Service):
   def exposed_train(self):
@@ -29,6 +29,12 @@ class TFService(rpyc.Service):
     loaded_model = tf.keras.models.load_model('/tmp/trained_model.h5')
     loaded_model.summary()
     return 'loaded model'
+
+  def exposed_sleep(self, timeout):
+    for i in range(timeout):
+      print 'sleeping for {} seconds'.format(i)
+      time.sleep(i)
+    return 'congrats'
 
 
 if __name__ == "__main__":
